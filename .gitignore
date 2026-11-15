@@ -1,0 +1,17 @@
+# Секреты и локальные данные
+config.json
+data/
+logs/
+*.db
+*.db.bak
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Системное
+desktop.ini
+Thumbs.db

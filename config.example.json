@@ -1,0 +1,84 @@
+{
+  "bot_token": "123456:ABC-DEF_YOUR_BOT_TOKEN",
+  "openrouter_key": "sk-or-v1-YOUR_KEY",
+  "classifier": {
+    "mode": "hybrid",
+    "model": "perplexity/pplx-decider-v1.3:free",
+    "fallback_model": "perplexity/pplx-decider-v1.3:free",
+    "confidence_threshold": 0.45
+  },
+  "ai": {
+    "answer_model": "openrouter/free",
+    "max_context_notes": 6,
+    "digest_enabled": false,
+    "digest_time": "21:00",
+    "reminder_enabled": true
+  },
+  "search": {
+    "limit": 5
+  },
+  "autostart_bot": true,
+  "admin_user_ids": [],
+  "categories": [
+    {
+      "id": "task",
+      "title": "api",
+      "emoji": "🗝️",
+      "criteria": "api keys на подобии sk-or-v1-YOUR_KEY или sk-sub-YOUR_KEY\nи подобные"
+    },
+    {
+      "id": "idea",
+      "title": "Идеи",
+      "emoji": "💡",
+      "criteria": "Идея, мысль, наблюдение, творческая находка, план на будущее без конкретного срока."
+    },
+    {
+      "id": "link",
+      "title": "Ссылки и статьи",
+      "emoji": "🔗",
+      "criteria": "URL, статья, пост или рекомендация почитать/посмотреть что-то."
+    },
+    {
+      "id": "event",
+      "title": "События",
+      "emoji": "📅",
+      "criteria": "Событие с датой или временем: встреча, кино, день рождения, поездка."
+    },
+    {
+      "id": "purchase",
+      "title": "Покупки",
+      "emoji": "🛒",
+      "criteria": "Купить, заказать, цена, товар, чек, оплата."
+    },
+    {
+      "id": "study",
+      "title": "Учёба",
+      "emoji": "📚",
+      "criteria": "Конспект, домашнее задание, урок, курс, экзамен, определение, формула."
+    },
+    {
+      "id": "media",
+      "title": "Медиа",
+      "emoji": "🎞",
+      "criteria": "Фото, видео, музыка, фильм, сериал, трек — рекомендация или сохранённый файл."
+    },
+    {
+      "id": "other",
+      "title": "Прочее",
+      "emoji": "📦",
+      "criteria": "Всё остальное, что не подходит ни под одну категорию."
+    },
+    {
+      "id": "cat61252",
+      "title": "Новая",
+      "emoji": "🗂",
+      "criteria": ""
+    },
+    {
+      "id": "cat61456",
+      "title": "Новая",
+      "emoji": "🗂",
+      "criteria": ""
+    }
+  ]
+}
