@@ -11,8 +11,15 @@ from pathlib import Path
 
 from PyQt6.QtCore import QObject, pyqtSignal
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
-RUN_SCRIPT = PROJECT_ROOT / "run_bot.py"
+if getattr(sys, "frozen", False):
+    # PyInstaller-сборка: бот — это тот же exe с флагом --bot, данные рядом с exe
+    PROJECT_ROOT = Path(sys.executable).resolve().parent
+    BOT_COMMAND: list[str] = [sys.executable, "--bot"]
+    BOT_PROC_NAMES: tuple[str, ...] = (Path(sys.executable).name.lower(), "python.exe", "pythonw.exe")
+else:
+    PROJECT_ROOT = Path(__file__).resolve().parent.parent
+    BOT_COMMAND = [sys.executable, str(PROJECT_ROOT / "run_bot.py")]
+    BOT_PROC_NAMES = ("python.exe", "pythonw.exe")
 PID_PATH = PROJECT_ROOT / "data" / "bot.pid"
 
 
@@ -40,14 +47,15 @@ def _pid_alive(pid: int) -> bool:
 
 
 def _external_bot_pids() -> list[int]:
-    """PID чужих процессов run_bot.py (иначе Telegram отдаёт 409 Conflict)."""
+    """PID чужих процессов бота (иначе Telegram отдаёт 409 Conflict)."""
     if sys.platform != "win32":
         return []
+    names = " or ".join(f"Name='{n}'" for n in BOT_PROC_NAMES)
     try:
         out = subprocess.run(
             ["powershell", "-NoProfile", "-Command",
-             "Get-CimInstance Win32_Process -Filter \"Name='python.exe'\" | "
-             "Where-Object {$_.CommandLine -like '*run_bot.py*'} | "
+             f"Get-CimInstance Win32_Process -Filter \"{names}\" | "
+             "Where-Object {$_.CommandLine -like '*run_bot.py*' -or $_.CommandLine -like '* --bot*'} | "
              "Select-Object -ExpandProperty ProcessId"],
             capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=20,
             creationflags=_no_window_flags(),
@@ -106,7 +114,7 @@ class BotManager(QObject):
         env["PYTHONUNBUFFERED"] = "1"
         try:
             self.proc = subprocess.Popen(
-                [sys.executable, str(RUN_SCRIPT)],
+                BOT_COMMAND,
                 cwd=str(PROJECT_ROOT),
                 env=env,
                 stdout=subprocess.PIPE,
