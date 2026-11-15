@@ -3,16 +3,26 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 import threading
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if getattr(sys, "frozen", False):
+    # PyInstaller-сборка: конфиг/БД/логи — рядом с exe, ассеты — внутри бандла
+    BUNDLE_DIR = Path(getattr(sys, "_MEIPASS", Path(sys.executable).resolve().parent))
+    PROJECT_ROOT = Path(sys.executable).resolve().parent
+    LOGO_PATH = BUNDLE_DIR / "assets" / "logo.png"
+    APP_ICON_PATH = BUNDLE_DIR / "assets" / "logo.ico"
+else:
+    BUNDLE_DIR = PROJECT_ROOT = Path(__file__).resolve().parent.parent
+    LOGO_PATH = PROJECT_ROOT / "assets" / "logo.png"
+    APP_ICON_PATH = PROJECT_ROOT / "assets" / "logo.ico"
+
 CONFIG_PATH = PROJECT_ROOT / "config.json"
 LOG_DIR = PROJECT_ROOT / "logs"
 DB_PATH = PROJECT_ROOT / "data" / "favorites.db"
-LOGO_PATH = PROJECT_ROOT / "assets" / "logo.png"
 
 BOT_TOKEN = os.environ.get("IZBRANNOE_BOT_TOKEN", "")
 OPENROUTER_KEY = os.environ.get("IZBRANNOE_OPENROUTER_KEY", "")

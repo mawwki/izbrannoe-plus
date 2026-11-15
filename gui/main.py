@@ -20,8 +20,8 @@ from PyQt6.QtWidgets import (QApplication, QComboBox, QFrame, QGridLayout,
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from favorites_plus.config import (ANSWER_MODELS, DB_PATH, DECIDER_MODELS, LOGO_PATH,
-                                   PROJECT_ROOT, load_config, save_config)
+from favorites_plus.config import (ANSWER_MODELS, APP_ICON_PATH, DB_PATH, DECIDER_MODELS,
+                                   LOGO_PATH, PROJECT_ROOT, load_config, save_config)
 from gui.bot_manager import BotManager
 from gui.theme import (DARK, EDGE_BOTTOM, EDGE_LEFT, EDGE_MARGIN, EDGE_RIGHT, EDGE_TOP,
                        LIGHT, RADIUS_WINDOW, accent_fg, build_stylesheet, rgba,
@@ -106,7 +106,7 @@ class MainWindow(QMainWindow):
         self.setMinimumSize(880, 560)
         self.resize(1120, 720)
         self.setWindowTitle("Избранное+ — настройки")
-        self.setWindowIcon(QIcon(str(PROJECT_ROOT / "assets" / "logo.ico")))
+        self.setWindowIcon(QIcon(str(APP_ICON_PATH)))
         self.setMouseTracking(True)
         QApplication.instance().installEventFilter(self)
 
